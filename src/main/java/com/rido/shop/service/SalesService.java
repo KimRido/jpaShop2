@@ -1,5 +1,7 @@
 package com.rido.shop.service;
 
+import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.rido.shop.config.QuerydslConfig;
 import com.rido.shop.domain.Item;
 import com.rido.shop.domain.Member;
 import com.rido.shop.domain.Sales;
@@ -20,6 +22,7 @@ public class SalesService {
     private final MemberRepository memberRepository;
     private final ItemRepository itemRepository;
     private final SalesRepository salesRepository;
+    private final JPAQueryFactory jpaQueryFactory;
 
     public void addOrder(String username, Long itemId, Integer count, Integer price) {
         Item item = itemRepository.findById(itemId)
@@ -45,5 +48,9 @@ public class SalesService {
                         s.getItem().getImgPath()
                 ))
                 .toList();
+    }
+
+    public List<OrderListDto> getOrderListByQueryDsl() {
+
     }
 }
