@@ -20,7 +20,7 @@
 
 
     <div class="card" th:each="item : ${items.content}">
-        <img th:src="${item.imgPath} != null ? ${item.imgPath} : 'https://placehold.co/300'">
+        <img th:src="${item.imgPath} != null ? 'https://placehold.co/300' : 'https://placehold.co/300'">
         <div>
             <h4>
                 <a th:href="@{/detail/{id}(id=${item.id})}" th:text="${item.title}"></a>

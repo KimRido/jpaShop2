@@ -15,7 +15,7 @@
 
     <div class="detail">
         <h4>상세페이지</h4>
-        <img th:src="${data.imgPath} != null ? ${data.imgPath} : 'https://placehold.co/300'">
+        <img th:src="${data.imgPath} != null ? 'https://placehold.co/300' : 'https://placehold.co/300'">
         <h4 th:text="${data.title}">금도금 바지</h4>
         <p th:text="${data.price + '원'}">7억</p>
     </div>

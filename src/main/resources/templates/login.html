@@ -34,15 +34,22 @@
     <button onclick="getMyPage()">JWT 마이페이지</button>
 
 <script>
-    function loginJWT() {
-        fetch('/login/jwt', {
+    async function loginJWT() {
+        let result = await fetch('/login/jwt', {
           method : 'POST',
           headers : {'Content-Type': 'application/json'},
           body : JSON.stringify({
             username : document.querySelector('#username').value,
             password : document.querySelector('#password').value
-          })
-        }).then(r => r.text()).then((r)=>{ console.log(r) })
+          }),
+          credentials: "include"
+        })
+
+        if(!result.ok) {
+            throw new Error("에러");
+        }
+
+        window.location.href = "/list"
     }
 
     async function getMyPage() {

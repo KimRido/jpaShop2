@@ -19,6 +19,7 @@ public class Item extends BaseEntity {
     private String title;
     private Integer price;
     private String imgPath;
+    private Integer count;
 
     @OneToOne(mappedBy = "item", fetch = FetchType.LAZY)
     private Sales sales;
