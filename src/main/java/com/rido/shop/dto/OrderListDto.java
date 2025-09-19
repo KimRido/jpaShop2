@@ -1,5 +1,6 @@
 package com.rido.shop.dto;
 
+import com.querydsl.core.annotations.QueryProjection;
 import com.rido.shop.domain.Item;
 import com.rido.shop.domain.Member;
 import jakarta.persistence.FetchType;
@@ -10,7 +11,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
-@AllArgsConstructor
 public class OrderListDto {
 
     private Long id;
@@ -23,13 +23,14 @@ public class OrderListDto {
 
     private String imgPath;
 
-
-/*    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
-    private Member member;
-
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "item_id")
-    private Item item;*/
-
+    @QueryProjection
+    public OrderListDto(Long id, String itemName, Integer price, Integer count, String username, String displayName, String imgPath) {
+        this.id = id;
+        this.itemName = itemName;
+        this.price = price;
+        this.count = count;
+        this.username = username;
+        this.displayName = displayName;
+        this.imgPath = imgPath;
+    }
 }

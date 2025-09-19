@@ -36,7 +36,7 @@ public class SalesController {
 
     @GetMapping("/order-list")
     public String orderList(Model model) {
-        model.addAttribute("orderList", salesService.getOrderList());
+        model.addAttribute("orderList", salesService.getOrderListByQueryDsl());
 
         return "orderList";
     }

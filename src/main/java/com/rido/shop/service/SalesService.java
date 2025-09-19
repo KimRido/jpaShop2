@@ -2,18 +2,18 @@ package com.rido.shop.service;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.rido.shop.config.QuerydslConfig;
-import com.rido.shop.domain.Item;
-import com.rido.shop.domain.Member;
-import com.rido.shop.domain.Sales;
+import com.rido.shop.domain.*;
 import com.rido.shop.dto.OrderListDto;
 import com.rido.shop.repository.ItemRepository;
 import com.rido.shop.repository.MemberRepository;
 import com.rido.shop.repository.SalesRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.query.Order;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 
 @Service
 @RequiredArgsConstructor
@@ -22,7 +22,6 @@ public class SalesService {
     private final MemberRepository memberRepository;
     private final ItemRepository itemRepository;
     private final SalesRepository salesRepository;
-    private final JPAQueryFactory jpaQueryFactory;
 
     public void addOrder(String username, Long itemId, Integer count, Integer price) {
         Item item = itemRepository.findById(itemId)
@@ -51,6 +50,6 @@ public class SalesService {
     }
 
     public List<OrderListDto> getOrderListByQueryDsl() {
-
+        return salesRepository.findAllOrders();
     }
 }
