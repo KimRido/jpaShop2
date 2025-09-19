@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, member-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link href="/main.css" rel="stylesheet">
+
+</head>
+<body>
+
+    <div th:replace="~{ nav.html::navbar }"></div>
+
+    <div class="detail">
+        <h4>상세페이지</h4>
+        <img th:src="${data.imgPath} != null ? ${data.imgPath} : 'https://placehold.co/300'">
+        <h4 th:text="${data.title}">금도금 바지</h4>
+        <p th:text="${data.price + '원'}">7억</p>
+    </div>
+
+    <!--  댓글조회  -->
+    <div th:each="comment : ${comments}">
+        <p th:text="${comment.content}"></p>
+        <p th:text="${comment.username}"></p>
+    </div>
+
+    <!--  댓글작성기능(로그인한 사람만 가능)  -->
+    <div sec:authorize="isAuthenticated()">
+        <form action="/add-comment" method="post">
+            <input th:value = "${data.id}" name="parentId" type="hidden">
+            <input name="content">
+            <button type="submit">작성</button>
+        </form>
+    </div>
+
+    <!--  주문하기  -->
+    <div sec:authorize="isAuthenticated()">
+        <form action="/order" method="post">
+            <input name="itemId" th:value="${data.id}" style="display:none">
+            <input name="count" type="number">
+            <input name="price" type="number" readonly>
+            <button type="submit">주문하기</button>
+        </form>
+    </div>
+
+
+<script>
+    let countInput = document.querySelector('[name=count]')
+    let priceInput = document.querySelector('[name=price]')
+
+    let unitPrice = [[${data.price}]];
+
+    countInput.addEventListener("input", function() {
+        priceInput.value = countInput.value * unitPrice
+    })
+</script>
+
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, member-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link href="/main.css" rel="stylesheet">
+
+</head>
+<body>
+
+    <div th:replace="~{ nav.html::navbar }"></div>
+
+    <div th:each="order : ${orderList}">
+        <p th:text="${order.itemName}"></p>
+        <p th:text="${order.price}"></p>
+        <p th:text="${order.count}"></p>
+        <p th:text="${order.username}"></p>
+        <p th:text="${order.displayName}"></p>
+        <p th:text="${order.imgPath}"></p>
+    </div>
+
+<script th:inline="javascript">
+    console.log([[${orderList}]])
+</script>
+
+
+</body>
+</html>

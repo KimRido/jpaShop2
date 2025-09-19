@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, member-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link href="/main.css" rel="stylesheet">
+
+</head>
+<body>
+    <div th:replace="~{ nav.html::navbar }"></div>
+
+    <form action="/add" method="POST">
+        <input name="title">
+        <input name="price">
+        <input name="imgPath" type="hidden">
+        <button type="submit">전송</button>
+    </form>
+
+    <input type="file" onchange="getUrl(this)">
+    <img src="">
+
+
+
+
+<script>
+    async function getUrl(e) {
+        let name = encodeURIComponent(e.files[0].name)
+        <!--   presignedUrl 발급     -->
+        let result = await fetch('/presigned-url?filename=' + name,{})
+        result = await result.text()
+        console.log(result)
+
+        <!--   S3에 업로드     -->
+        let uploadS3 = await fetch(result,{
+            method : 'PUT',
+            body : e.files[0],
+        })
+
+        <!--   S3에 업로드 완료    -->
+        if(uploadS3.ok) {
+            document.querySelector('[name=imgPath]').value = uploadS3.url.split('?')[0]
+        }
+    }
+
+</script>
+
+
+</body>
+</html>

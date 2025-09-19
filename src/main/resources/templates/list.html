@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, member-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link href="/main.css" rel="stylesheet">
+
+</head>
+<body>
+
+    <div th:replace="~{ nav.html::navbar }"></div>
+
+    <form action="/search" method="get">
+        <input name="searchText" style="display:inline">
+        <button>검색</button>
+    </form>
+
+
+    <div class="card" th:each="item : ${items.content}">
+        <img th:src="${item.imgPath} != null ? ${item.imgPath} : 'https://placehold.co/300'">
+        <div>
+            <h4>
+                <a th:href="@{/detail/{id}(id=${item.id})}" th:text="${item.title}"></a>
+            </h4>
+            <p th:text="${item.price}">7억</p>
+            <a th:href="@{/edit/{id}(id=${item.id})}">✏️</a>
+            <span th:onclick="|fetch('/delete', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({id: ${item.id}})
+                .then(r => r.json())
+                .then(() => {
+                    location.reload();
+                })
+            })|">🗑️</span>
+        </div>
+    </div>
+
+    <!-- 페이지네이션 -->
+    <div>
+        <ul class="pagination">
+            <!-- 이전 버튼 -->
+            <li th:if="${items.hasPrevious()}">
+                <a th:href="@{/list(page=${items.number - 1})}">이전</a>
+            </li>
+
+            <!-- 페이지 번호 반복 -->
+            <li th:each="i : ${#numbers.sequence(0, items.totalPages - 1)}"
+                th:classappend="${i == items.number} ? 'active'">
+                <a th:href="@{/list(page=${i})}" th:text="${i + 1}">1</a>
+            </li>
+
+            <!-- 다음 버튼 -->
+            <li th:if="${items.hasNext()}">
+                <a th:href="@{/list(page=${items.number + 1})}">다음</a>
+            </li>
+
+        </ul>
+    </div>
+
+    <button class="btn">버튼</button>
+
+<script>
+    let message = "[[${items.number}]]";
+    console.log("items.number:", message);
+
+    let message2 = "[[${items.totalPages}]]";
+    console.log("items.totalPages:", message2);
+
+</script>
+</body>
+</html>
